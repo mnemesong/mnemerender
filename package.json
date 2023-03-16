@@ -6,7 +6,7 @@
   "scripts": {
     "tsc": "tsc",
     "test": "mocha ./js/test/**/*.js",
-    "build-dev": "tsc && browserify ./js/test/app.js > resources/bundle.js"
+    "build-dev": "tsc && browserify ./js/test-app/app.js > acc-test/bundle.js"
   },
   "keywords": [],
   "author": "",
