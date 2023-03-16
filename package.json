@@ -1,7 +1,7 @@
 {
   "name": "mnemerender",
-  "version": "0.1.0",
-  "description": "",
+  "version": "1.0.0",
+  "description": "Imperative component render tool with typescript support",
   "main": "./js/src/src.js",
   "scripts": {
     "tsc": "tsc",
