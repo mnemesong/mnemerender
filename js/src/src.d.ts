@@ -1,82 +1,83 @@
 /**
- * A function that draws a template based on the parameters and the name of the components collection
+ * A function that draws a template based on the parameters and the name
+ * of the components collection
  */
 export type MnemeTemplateFunc<Params> = (params: Readonly<Params>, name: Readonly<string>) => string;
 /**
- * Декладация функций, которые требуются компоненту
+ * Declaring the features that a component needs
  */
 export type MnemeActionsDeclaration = Record<string, Function>;
 /**
- * Функция, отрабатывающая для инициализации компонента
+ * A function that executes after the collection is drawn,
+ * initialized with state
  */
-export type MnemePostRenderUnpureFunc<Params, State> = (params: Readonly<Params>, name: Readonly<string>, state: Readonly<State>) => void;
+export type MnemePostRenderGnosticFunc<Params, State> = (params: Readonly<Params>, name: Readonly<string>, state: Readonly<State>) => void;
 /**
- * Функция запуска пост-рендер скрипта изнутри компонента
+ * Function to run a post-render script from within a component
  */
-export type MnemePostRenderPureFunc<Params, Actions extends MnemeActionsDeclaration> = (params: Params, name: string, actions: Actions) => void;
+export type MnemePostRenderAgnosticFunc<Params, Actions extends MnemeActionsDeclaration> = (params: Params, name: string, actions: Actions) => void;
 /**
- * Функция для внедрения доп. кода на этапе инициализации компонента в приложении
- */
-export type MnemeAfterScriptPostFunc<Params, State> = (params: Readonly<Params>, name: Readonly<string>, afterPost: MnemePostRenderUnpureFunc<Params, State>) => void;
-/**
- * Функция отрисовки CSS
+ * CSS block rendering function for a component
  */
 export type MnemeProduceCSSFunc = (name: Readonly<string>) => string;
 /**
- * Функция производящая querySelector-строку для компонента, исходя из его названия и значений
+ * A function that produces a querySelector string for a component
+ * based on its name and values
  */
 export type MnemeHostFunction<Params> = (params: Readonly<Params>, name: Readonly<string>) => string;
 /**
- * Тип скомпонованных статических данных компонента
+ * Component agnostic data block
  */
 export type MnemeComponent<Params, Actions extends MnemeActionsDeclaration> = Readonly<{
     template: MnemeTemplateFunc<Params>;
-    after: MnemePostRenderPureFunc<Params, Actions>;
+    after: MnemePostRenderAgnosticFunc<Params, Actions>;
     css: MnemeProduceCSSFunc;
 }>;
 /**
- * Тип порождающих компонент функций, проинициализированных состоянием
+ * Component agnostic data block (initialized by state)
  */
-export type MnemeComponentData<Params, State> = Readonly<{
+export type MnemeComponentGnosticData<Params, State> = Readonly<{
     host: MnemeHostFunction<Params>;
     template: MnemeTemplateFunc<Params>;
-    after: MnemePostRenderUnpureFunc<Params, State>;
+    after: MnemePostRenderGnosticFunc<Params, State>;
     css: MnemeProduceCSSFunc;
 }>;
 /**
- * Конвертер after функции с обогащением ее состоянием
+ * A function that converts an agnostic postRender script into a gnostic one,
+ * initializing it with a state
  */
-export type MnemePostScriptConverter<Params, Actions extends MnemeActionsDeclaration, State> = (func: MnemePostRenderPureFunc<Params, Actions>) => MnemePostRenderUnpureFunc<Params, State>;
+export type MnemePostScriptConverter<Params, Actions extends MnemeActionsDeclaration, State> = (func: MnemePostRenderAgnosticFunc<Params, Actions>) => MnemePostRenderGnosticFunc<Params, State>;
 /**
- * Функция обогащения компонента состоянием
+ * A function that converts an agnostic component block into a gnostic component
+ * data block, initializing it with a state
  */
 export declare const initComponent: <Params, Actions extends MnemeActionsDeclaration, State>(component: Readonly<Readonly<{
     template: MnemeTemplateFunc<Params>;
-    after: MnemePostRenderPureFunc<Params, Actions>;
+    after: MnemePostRenderAgnosticFunc<Params, Actions>;
     css: MnemeProduceCSSFunc;
 }>>, afterConvertor: MnemePostScriptConverter<Params, Actions, State>, host: MnemeHostFunction<Params>) => Readonly<{
     host: MnemeHostFunction<Params>;
     template: MnemeTemplateFunc<Params>;
-    after: MnemePostRenderUnpureFunc<Params, State>;
+    after: MnemePostRenderGnosticFunc<Params, State>;
     css: MnemeProduceCSSFunc;
 }>;
 /**
- * Метод для получения нужных ствойств компонента из хранилища
+ * Method for getting the required properties of the component from the store
  */
-export type ComponentsCollectionContoller<Params, State> = Readonly<{
+export type MnemeComponentsCollectionContoller<Params, State> = Readonly<{
     getElements: (state: State) => Params[];
-    getComponentData: (state: State) => MnemeComponentData<Params, State>;
+    getComponentData: (state: State) => MnemeComponentGnosticData<Params, State>;
     getName: (state: State) => string;
 }>;
 /**
- * Метод перерисовки коллекции объектов
+ * Method for redrawing a collection of objects
  */
 export declare const rerenderComponentsCollection: <Params, State>(root: Readonly<HTMLElement>, collController: Readonly<{
     getElements: (state: State) => Params[];
     getComponentData: (state: State) => Readonly<{
         host: MnemeHostFunction<Params>;
         template: MnemeTemplateFunc<Params>;
-        after: MnemePostRenderUnpureFunc<Params, State>;
+        after: MnemePostRenderGnosticFunc<Params, State>;
         css: MnemeProduceCSSFunc;
     }>;
     getName: (state: State) => string;

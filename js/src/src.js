@@ -13,7 +13,8 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.rerenderComponentsCollection = exports.initComponent = void 0;
 /**
- * Функция обогащения компонента состоянием
+ * A function that converts an agnostic component block into a gnostic component
+ * data block, initializing it with a state
  */
 var initComponent = function (component, afterConvertor, host) { return ({
     host: host,
@@ -23,7 +24,7 @@ var initComponent = function (component, afterConvertor, host) { return ({
 }); };
 exports.initComponent = initComponent;
 /**
- * Метод перерисовки коллекции объектов
+ * Method for redrawing a collection of objects
  */
 var rerenderComponentsCollection = function (root, collController, state) {
     var addElToTodoElToSelectorMap = function (acc, el) {
