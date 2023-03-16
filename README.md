@@ -40,3 +40,4 @@ MIT
 
 ## Author
 Anatoly "Pantagruel74" Starodubtsev 
+tostar74@mail.ru

@@ -1,6 +1,6 @@
 {
   "name": "mnemerender",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "./js/src/src.js",
   "scripts": {
@@ -9,8 +9,8 @@
     "build-dev": "tsc && browserify ./js/test-app/app.js > acc-test/bundle.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Anatoly Starodubtsev <tostar74@mail.ru>",
+  "license": "MIT",
   "devDependencies": {
     "mocha": "^10.2.0",
     "typescript": "^4.9.4",
